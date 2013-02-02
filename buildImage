@@ -1,0 +1,42 @@
+#!/bin/bash
+
+PWD=`pwd`
+
+CYANOGEN_BASE_PATH=$PWD/cm-10.1
+CYANOGEN_PRODUCT_PATH=$CYANOGEN_BASE_PATH/out/target/product/archos_g9
+
+DESTINATION_PATH=$PWD/archos_image
+
+echo "Mounting base image..."
+sudo mount $DESTINATION_PATH/archos.ext4.update $DESTINATION_PATH/mount/
+echo "Remove system folder"
+sudo rm -rf $DESTINATION_PATH/mount/system
+
+echo "Copy system folder from cyanogen mod..."
+sudo cp -rf $CYANOGEN_PRODUCT_PATH/system $DESTINATION_PATH/mount/
+
+echo "Copy gapps package..."
+sudo cp -rf $DESTINATION_PATH/gapps/system $DESTINATION_PATH/mount/
+
+echo "Copy hwcomposer.so ..."
+sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/vendor/lib/hw/hwcomposer.omap4.so $DESTINATION_PATH/mount/system/vendor/lib/hw/hwcomposer.omap4.so
+
+echo "Copy builded sgx module ..."
+sudo cp $CYANOGEN_BASE_PATH/out/target/product/archos_g9/target/pvrsrvkm_sgx540_120.ko $DESTINATION_PATH/mount/system/lib/modules/pvrsrvkm_sgx540_120.ko
+
+echo "Symlinking gralloc library ..."
+sudo ln -s gralloc.omap4430.so $DESTINATION_PATH/mount/system/vendor/lib/hw/gralloc.archos.so
+
+echo "Set permissions for su"
+sudo chown 0:0 $DESTINATION_PATH/mount/system/xbin/su
+sudo chmod 6755 $DESTINATION_PATH/mount/system/xbin/su
+
+echo "Unmounting base image..."
+sudo umount $DESTINATION_PATH/mount
+
+echo "Archos image is at the following position:"
+echo "$DESTINATION_PATH/archos.ext4.update"
+echo "If you want to mount it use:"
+echo "sudo mount $DESTINATION_PATH/archos.ext4.update $DESTINATION_PATH/mount/"
+echo "If you want to transfer it to archos device use:"
+echo "adb push $DESTINATION_PATH/archos.ext4.update /data/media/ && adb reboot"

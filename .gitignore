@@ -1,0 +1,6 @@
+# Ignore working directories
+cm-10.1*/
+privrepos/
+releases/
+test/
+archos_image/
