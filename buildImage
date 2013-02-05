@@ -9,8 +9,15 @@ DESTINATION_PATH=$PWD/archos_image
 
 echo "Mounting base image..."
 sudo mount $DESTINATION_PATH/archos.ext4.update $DESTINATION_PATH/mount/
-echo "Remove system folder"
-sudo rm -rf $DESTINATION_PATH/mount/system
+
+echo "Clear image..."
+sudo rm -rf $DESTINATION_PATH/mount/*
+
+echo "Extracting base image"
+sudo tar xfj archos_base_image.tar.bz2 -C $DESTINATION_PATH/mount/
+
+echo "Copy root folder from cyanogen mod..."
+sudo cp -rf $CYANOGEN_PRODUCT_PATH/root/* $DESTINATION_PATH/mount/
 
 echo "Copy system folder from cyanogen mod..."
 sudo cp -rf $CYANOGEN_PRODUCT_PATH/system $DESTINATION_PATH/mount/
