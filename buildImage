@@ -21,6 +21,10 @@ sudo cp -rf $DESTINATION_PATH/gapps/system $DESTINATION_PATH/mount/
 echo "Copy hwcomposer.so ..."
 sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/vendor/lib/hw/hwcomposer.omap4.so $DESTINATION_PATH/mount/system/vendor/lib/hw/hwcomposer.omap4.so
 
+echo "Copy init.rc and ueventd.rc ..."
+sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/init.rc $DESTINATION_PATH/mount/init.rc
+sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/ueventd.rc $DESTINATION_PATH/mount/ueventd.rc
+
 echo "Copy builded sgx module ..."
 sudo cp $CYANOGEN_BASE_PATH/out/target/product/archos_g9/target/pvrsrvkm_sgx540_120.ko $DESTINATION_PATH/mount/system/lib/modules/pvrsrvkm_sgx540_120.ko
 
