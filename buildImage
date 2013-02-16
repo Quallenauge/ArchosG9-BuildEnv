@@ -25,6 +25,7 @@ sudo cp -rf $CYANOGEN_PRODUCT_PATH/system $DESTINATION_PATH/mount/
 echo "Copy gapps package..."
 sudo cp -rf $DESTINATION_PATH/gapps/system $DESTINATION_PATH/mount/
 
+# Not needed anymore
 #echo "Copy hwcomposer.so ..."
 #sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/system/vendor/lib/hw/hwcomposer.omap4.so $DESTINATION_PATH/mount/system/vendor/lib/hw/hwcomposer.omap4.so
 
@@ -41,6 +42,9 @@ sudo ln -s gralloc.omap4430.so $DESTINATION_PATH/mount/system/vendor/lib/hw/gral
 echo "Set permissions for su"
 sudo chown 0:0 $DESTINATION_PATH/mount/system/xbin/su
 sudo chmod 6755 $DESTINATION_PATH/mount/system/xbin/su
+
+echo "Workaround for libedid.so because it crashes the hwcomposer. /system/lib/libedid.so is renamed into /system/lib/libedid.so.bak"
+sudo mv $DESTINATION_PATH/mount/system/lib/libedid.so $DESTINATION_PATH/mount/system/lib/libedid.so.bak
 
 echo "Unmounting base image..."
 sudo umount $DESTINATION_PATH/mount

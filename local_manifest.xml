@@ -18,6 +18,7 @@
 <!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8"/> -->
 	<remove-project name="CyanogenMod/android_system_core"/>
 	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
+	<remove-project name="CyanogenMod/android_hardware_libhardware"/>
 
 
         <!-- Quallenauge kernel repository -->
@@ -26,6 +27,7 @@
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm10.1"  remote="Quallenauge" />
         <project path="system/core" name="Quallenauge/android_system_core" revision="cm-10.1"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.1"  remote="Quallenauge" />
+        <project path="hardware/libhardware" name="Quallenauge/android_hardware_libhardware" revision="cm-10.1"  remote="Quallenauge" />
 
 
 	<!-- linux firmware repository -->
