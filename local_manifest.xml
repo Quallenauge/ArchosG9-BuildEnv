@@ -14,9 +14,10 @@
         <remote name="LinuxKernel"
                 fetch="git://git.kernel.org" />
 
-<!--  	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/> -->
+  	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/>
 <!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8"/> -->
 	<remove-project name="CyanogenMod/android_system_core"/>
+	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
 
 
         <!-- Quallenauge kernel repository -->
@@ -24,6 +25,8 @@
         <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="master"  remote="Quallenauge" />
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm10.1"  remote="Quallenauge" />
         <project path="system/core" name="Quallenauge/android_system_core" revision="cm-10.1"  remote="Quallenauge" />
+        <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.1"  remote="Quallenauge" />
+
 
 	<!-- linux firmware repository -->
 	<project path="hardware/linux-firmware" name="pub/scm/linux/kernel/git/dwmw2/linux-firmware" revision="master" remote="LinuxKernel" />
@@ -60,10 +63,10 @@
         <project path="device/ti/panda5" name="device/ti/panda5" revision="jb-release" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-        <project path="device/ti/proprietary-open" name="device/ti/proprietary-open" revision="jb-release"  remote="omap-mirror">
+        <project path="device/ti/proprietary-open" name="device/ti/proprietary-open" revision="p-jb-mr1-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-        <project path="hardware/ti/domx" name="platform/hardware/ti/domx" revision="master" remote="omap-mirror">
+        <project path="hardware/ti/domx" name="platform/hardware/ti/domx" revision="d-jb-mr1-release" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
         <project path="hardware/ti/dvp" name="platform/hardware/ti/dvp" revision="master" remote="omap-mirror">
@@ -87,6 +90,9 @@
                 <annotation name="vendor" value="ti"/>
         </project>
 -->
+
+	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="d-jb-mr1-release" remote="omap-mirror"/>
+
 <!--    <project path="external/libnfc-ti" name="platform/external/libnfc-ti" revision="jb-release" remote="omap-mirror"/> -->
 <!--	<project path="device/archos_ext" name="archos/archos-gpl-gen9/hardware" revision="master" remote="Gitorious"/> -->
 
