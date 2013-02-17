@@ -1,12 +1,32 @@
 #!/bin/bash
 
-PWD=`pwd`
+export BUILD_PWD=`pwd`
 
-CYANOGEN_BASE_PATH=$PWD/cm-10.1
-CYANOGEN_PRODUCT_PATH=$CYANOGEN_BASE_PATH/out/target/product/archos_g9
+export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-10.1
+export CYANOGEN_PRODUCT_PATH=$CYANOGEN_BASE_PATH/out/target/product/archos_g9
 
-DESTINATION_PATH=$PWD/archos_image
+export DESTINATION_PATH=$BUILD_PWD/archos_image
 
+
+echo "Build PWD: $BUILD_PWD"
+
+function callRepo
+{
+   shift
+   echo "Calling repo command in repository: $CYANOGEN_BASE_PATH with params: $*"
+   cd $CYANOGEN_BASE_PATH
+   repo $*
+   cd $BUILD_PWD
+}
+
+function inject
+{
+  echo "Injecting propritary files for archos device..."
+  cp -rv $BUILD_PWD/android_injection/* $CYANOGEN_BASE_PATH/
+}
+
+function buildImage
+{
 echo "Mounting base image..."
 sudo mount $DESTINATION_PATH/archos.ext4.update $DESTINATION_PATH/mount/
 
@@ -55,3 +75,45 @@ echo "If you want to mount it use:"
 echo "sudo mount $DESTINATION_PATH/archos.ext4.update $DESTINATION_PATH/mount/"
 echo "If you want to transfer it to archos device use:"
 echo "adb push $DESTINATION_PATH/archos.ext4.update /data/media/ && adb reboot"
+}
+
+function makeProject
+{
+    echo "$CYANOGEN_BASE_PATH: Rebuilding bionic headers, based from external/kernel-headers package"
+    cd $CYANOGEN_BASE_PATH
+
+    ./bionic/libc/kernel/tools/update_all.py
+
+    inject
+
+    if [ $1 == "clean" ]; then
+	echo "Cleaning target output folder..."
+	rm -rf out/target
+    fi
+
+    echo "Now building the project..."
+    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j8
+    cd $BUILD_PWD
+}
+
+case "$1" in
+"repo")
+	callRepo $*
+;;
+"buildImage")
+	buildImage
+;;
+"make")
+	makeProject
+;;
+"makeFull")
+	makeProject clean
+;;
+
+"inject")
+	inject;
+;;
+*)
+	echo "Command $1 not supported"
+;;
+esac
