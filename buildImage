@@ -66,6 +66,9 @@ sudo chmod 6755 $DESTINATION_PATH/mount/system/xbin/su
 echo "Workaround for libedid.so because it crashes the hwcomposer. /system/lib/libedid.so is renamed into /system/lib/libedid.so.bak"
 sudo mv $DESTINATION_PATH/mount/system/lib/libedid.so $DESTINATION_PATH/mount/system/lib/libedid.so.bak
 
+echo "Workaround for camera.omap4.so because it crashes the hwcomposer. /system/lib/hw/camera.omap4.so is renamed into /system/lib/hw/camera.omap4.so.bak"
+sudo mv $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so.bak
+
 echo "Unmounting base image..."
 sudo umount $DESTINATION_PATH/mount
 
