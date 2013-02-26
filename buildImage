@@ -99,6 +99,13 @@ function makeProject
     cd $BUILD_PWD
 }
 
+function cleanGitRepos
+{
+    callRepo repo forall -c git reset --hard
+    callRepo repo forall -c git clean -fd
+    $CYANOGEN_BASE_PATH/vendor/cm/get-prebuilts
+}
+
 case "$1" in
 "repo")
 	callRepo $*
@@ -112,9 +119,11 @@ case "$1" in
 "makeFull")
 	makeProject clean
 ;;
-
+"reset")
+	cleanGitRepos
+;;
 "inject")
-	inject;
+	inject
 ;;
 *)
 	echo "Command $1 not supported"
