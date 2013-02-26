@@ -24,7 +24,8 @@
         <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-ics-3.0.21"  remote="Quallenauge" />
         <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="master"  remote="Quallenauge" />
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm10.1"  remote="Quallenauge" />
-        <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.1"  remote="Quallenauge" />
+<!--        <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.1"  remote="Quallenauge" /> -->
+        <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="3fb93df7cd9b853aa1b340055d202c08cec833aa"  remote="Quallenauge" />
 
 <!-- Moved to favor android_injection
 	<remove-project name="CyanogenMod/android_system_core"/>
@@ -97,7 +98,8 @@
         </project>
 -->
 
-	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="d-jb-mr1-release" remote="omap-mirror"/>
+<!--	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="d-jb-mr1-release" remote="omap-mirror"/> -->
+	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="bbc6ce03abaf7f5971077ad30f1b7ae4540abb3b" remote="omap-mirror"/>
 
 <!--    <project path="external/libnfc-ti" name="platform/external/libnfc-ti" revision="jb-release" remote="omap-mirror"/> -->
 <!--	<project path="device/archos_ext" name="archos/archos-gpl-gen9/hardware" revision="master" remote="Gitorious"/> -->
