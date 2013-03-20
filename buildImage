@@ -63,8 +63,8 @@ echo "Set permissions for su"
 sudo chown 0:0 $DESTINATION_PATH/mount/system/xbin/su
 sudo chmod 6755 $DESTINATION_PATH/mount/system/xbin/su
 
-echo "Workaround for libedid.so because it crashes the hwcomposer. /system/lib/libedid.so is renamed into /system/lib/libedid.so.bak"
-sudo mv $DESTINATION_PATH/mount/system/lib/libedid.so $DESTINATION_PATH/mount/system/lib/libedid.so.bak
+#echo "Workaround for libedid.so because it crashes the hwcomposer. /system/lib/libedid.so is renamed into /system/lib/libedid.so.bak"
+#sudo mv $DESTINATION_PATH/mount/system/lib/libedid.so $DESTINATION_PATH/mount/system/lib/libedid.so.bak
 
 echo "Workaround for camera.omap4.so because it crashes the hwcomposer. /system/lib/hw/camera.omap4.so is renamed into /system/lib/hw/camera.omap4.so.bak"
 sudo mv $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so.bak
@@ -95,7 +95,7 @@ function makeProject
     fi
 
     echo "Now building the project..."
-    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j8
+    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j12
     cd $BUILD_PWD
 }
 
@@ -114,7 +114,7 @@ case "$1" in
 	buildImage
 ;;
 "make")
-	makeProject
+	makeProject dummyArg
 ;;
 "makeFull")
 	makeProject clean
