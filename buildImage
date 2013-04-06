@@ -95,6 +95,7 @@ function makeProject
     fi
 
     echo "Now building the project..."
+#    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make showcommands -j12
     . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j12
     cd $BUILD_PWD
 }
