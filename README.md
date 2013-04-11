@@ -16,19 +16,39 @@ Download or create a archos.ext4.update file and place it into this folder.
 # Init the CM10.1 repository
 ```bash
 repo init -u git://github.com/CyanogenMod/android.git -b cm10.1
-ln -s local_manifest.xml .repo/local_manifest.xml
-repo sync
+ln -s local_manifest.xml .repo/local_manifests/local_manifest.xml
+
+# Download and install the linaro toolchain
+./buildImage prepareLinaro
+
+# Sync the repository
+./buildImage repo sync
+```
+# Init the android injection repository
+```bash
+git clone git@github.com:Quallenauge/android_injection.git -b cm10.1_linaro
 ```
 
 # Build cyanogenmod
 ```bash
-cd cm10.1
- . build/envsetup.sh
-brunch archos_g9
+# (Re-)build cyanogenmod
+./buildImage make
+
+# Remove cm10.1/out/target folder and build cyanogenmod
+./buildImage makeFull
+
 ```
 
 # Finish image
 ```bash
-cd ..
-./buildImage
+./buildImage buildImage
+```
+
+# Some goodies
+```bash
+# Perform repo command
+./buildImage repo <command>
+
+# Clean up the cyanogenmod folder by using git reset/git clean commands
+./buildImage reset
 ```
