@@ -95,7 +95,6 @@ function makeProject
     fi
 
     echo "Now building the project..."
-#    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make showcommands -j12
     . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j12
     cd $BUILD_PWD
 }
@@ -105,6 +104,16 @@ function cleanGitRepos
     callRepo repo forall -c git reset --hard
     callRepo repo forall -c git clean -fd
     $CYANOGEN_BASE_PATH/vendor/cm/get-prebuilts
+}
+
+function prepareLinaroToolChain
+{
+    TAR_FILE=android-toolchain-eabi-linaro-4.7-2013.03-2-2013-03-17_20-47-57-linux-x86.tar.bz2
+    cd $CYANOGEN_BASE_PATH
+    wget -c https://releases.linaro.org/13.03/components/android/toolchain/4.7/$TAR_FILE
+    cd $CYANOGEN_BASE_PATH/prebuilts/gcc/linux-x86/arm
+    tar -xvjf ../../../../$TAR_FILE
+    mv android-toolchain-eabi linaro-4.7
 }
 
 case "$1" in
@@ -125,6 +134,9 @@ case "$1" in
 ;;
 "inject")
 	inject
+;;
+"prepareLinaro")
+	prepareLinaroToolChain
 ;;
 *)
 	echo "Command $1 not supported"
