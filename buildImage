@@ -113,6 +113,9 @@ function prepareLinaroToolChain
     wget -c https://releases.linaro.org/13.03/components/android/toolchain/4.7/$TAR_FILE
     cd $CYANOGEN_BASE_PATH/prebuilts/gcc/linux-x86/arm
     tar -xvjf ../../../../$TAR_FILE
+    if [ -e linaro-4.7 ]; then
+	rm -rf linaro-4.7
+    fi
     mv android-toolchain-eabi linaro-4.7
 }
 
