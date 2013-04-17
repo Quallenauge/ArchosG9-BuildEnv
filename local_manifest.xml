@@ -15,7 +15,7 @@
                 fetch="git://git.kernel.org" />
 
   	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/>
-<!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8"/> -->
+  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/>
 	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
 
 
@@ -91,11 +91,9 @@
         <project path="packages/apps/OMAPCamera" name="platform/packages/apps/OMAPCamera" revision="jb-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-<!--        
         <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" revision="d-jb-mr1-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-        -->
 <!--        <project path="external/wpa_supplicant_8" name="platform/external/wpa_supplicant_8" revision="d-jb-mr1-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
