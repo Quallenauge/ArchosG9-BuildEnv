@@ -21,7 +21,7 @@
 
 
         <!-- Quallenauge kernel repository -->
-        <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-ics-3.0.21"  remote="Quallenauge" />
+        <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-jb-3.0.31"  remote="Quallenauge" />
         <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="master"  remote="Quallenauge" />
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm10.1"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.1"  remote="Quallenauge" /> 
