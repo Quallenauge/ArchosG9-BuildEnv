@@ -17,6 +17,8 @@ Download or create a archos.ext4.update file and place it into this folder.
 ```bash
 repo init -u git://github.com/CyanogenMod/android.git -b cm10.1
 ln -s local_manifest.xml .repo/local_manifests/local_manifest.xml
+wget https://raw.github.com/TackleBerryCrash/local_manifests/master/roomservice.xml
+ln -s roomservice.xml .repo/local_manifests/roomservice.xml
 
 # Download and install the linaro toolchain
 ./buildImage prepareLinaro
@@ -33,8 +35,8 @@ git clone git@github.com:Quallenauge/android_injection.git -b cm10.1_linaro
 ```bash
 # (Re-)build cyanogenmod
 ./buildImage make
-
-# Remove cm10.1/out/target folder and build cyanogenmod
+# or when you have modified some files....
+# remove cm10.1/out/target folder and build cyanogenmod
 ./buildImage makeFull
 
 ```
