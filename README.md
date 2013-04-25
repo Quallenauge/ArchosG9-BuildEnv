@@ -45,6 +45,9 @@ git clone git@github.com:Quallenauge/android_injection.git -b cm10.1_linaro
 ```bash
 ./buildImage buildImage
 ```
+Update your device with archos.ext4.update, which is located in folder "archos_image".
+If you want to update the kernel, use the builded one, located on cm10.1/out/target/product/kernel.
+Note: Don't forget to rename it to zImage.
 
 # Some goodies
 ```bash
