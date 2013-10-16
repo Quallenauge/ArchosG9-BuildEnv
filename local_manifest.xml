@@ -15,31 +15,20 @@
                 fetch="git://git.kernel.org" />
 
   	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/>
-  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/>
+<!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/> -->
 	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
 
 
 
         <!-- Quallenauge kernel repository -->
-        <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-jb-3.0.58"  remote="Quallenauge" />
+        <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-ics-3.0.21"  remote="Quallenauge" />
         <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="master"  remote="Quallenauge" />
-        <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm10.1"  remote="Quallenauge" />
-        <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.1"  remote="Quallenauge" /> 
-<!--        <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="3fb93df7cd9b853aa1b340055d202c08cec833aa"  remote="Quallenauge" /> -->
-
-<!-- Moved to favor android_injection
-	<remove-project name="CyanogenMod/android_system_core"/>
-	<remove-project name="CyanogenMod/android_hardware_libhardware"/>
-
-        <project path="hardware/libhardware" name="Quallenauge/android_hardware_libhardware" revision="cm-10.1"  remote="Quallenauge" />
-        <project path="system/core" name="Quallenauge/android_system_core" revision="cm-10.1"  remote="Quallenauge" />
--->
+        <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-10.2_oldschool"  remote="Quallenauge" />
+        <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.2"  remote="Quallenauge" /> 
 
 	<!-- linux firmware repository -->
-	<project path="hardware/linux-firmware" name="pub/scm/linux/kernel/git/dwmw2/linux-firmware" revision="master" remote="LinuxKernel" />
+	<project path="hardware/linux-firmware" name="pub/scm/linux/kernel/git/dwmw2/linux-firmware" revision="629bb88092f679a2287ff0c84c499ce4da2d5970" remote="LinuxKernel" />
         
-<!--        <project path="hardware/ti/omap4xxx" name="Quallenauge/android_hardware_ti_omap4xxx" revision="jellybean-stable"  remote="Quallenauge" /> -->
-
         <!-- TI specific addons -->
         <project path="external/bltsville" name="platform/external/bltsville" revision="master"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
@@ -47,22 +36,6 @@
         <project path="external/crda" name="platform/external/crda" revision="jb-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-<!--
-        <project path="bionic" name="platform/bionic" revision="jb-release"  remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
-        <project path="frameworks/native" name="platform/frameworks/native" revision="jb-release"  remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
--->
-        <!--
-        <project path="device/ti/blaze_tablet" name="device/ti/blaze_tablet" revision="jb-release" remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
-        <project path="device/ti/blaze" name="device/ti/blaze" revision="jb-release"  remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
-        -->
 
         <project path="device/ti/omap5sevm" name="device/ti/omap5sevm" revision="jb-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
@@ -74,11 +47,6 @@
                 <annotation name="vendor" value="ti"/>
         </project>
 
-<!--
-        <project path="hardware/ti/domx" name="platform/hardware/ti/domx" revision="d-jb-mr1-release" remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
--->
         <project path="hardware/ti/dvp" name="platform/hardware/ti/dvp" revision="master" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
@@ -91,25 +59,17 @@
         <project path="packages/apps/OMAPCamera" name="platform/packages/apps/OMAPCamera" revision="jb-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
+        <!--
         <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" revision="d-jb-mr1-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-<!--        <project path="external/wpa_supplicant_8" name="platform/external/wpa_supplicant_8" revision="d-jb-mr1-release"  remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
--->
-
-<!--	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="d-jb-mr1-release" remote="omap-mirror"/> -->
+	-->
 
 	<!-- Revision for tag RLS4AJ.2.2_JellyBean-->
 	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="b206f1cf697077d226f27be4bfb895557acaa362" remote="omap-mirror"/>
 	<project name="platform/hardware/ti/domx" path="hardware/ti/domx" revision="1307c3a722d05441f561cc26ea022b63578f4740" upstream="master">
 	    <annotation name="vendor" value="ti"/>
 	</project>
-
-
-<!--    <project path="external/libnfc-ti" name="platform/external/libnfc-ti" revision="jb-release" remote="omap-mirror"/> -->
-<!--	<project path="device/archos_ext" name="archos/archos-gpl-gen9/hardware" revision="master" remote="Gitorious"/> -->
 
 </manifest>
 
