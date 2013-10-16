@@ -2,7 +2,7 @@
 
 export BUILD_PWD=`pwd`
 
-export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-10.1
+export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-10.2
 export CYANOGEN_PRODUCT_PATH=$CYANOGEN_BASE_PATH/out/target/product/archos_g9
 
 export DESTINATION_PATH=$BUILD_PWD/archos_image
