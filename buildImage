@@ -22,7 +22,7 @@ function callRepo
 function inject
 {
   echo "Injecting propritary files for archos device..."
-  cp -rv $BUILD_PWD/android_injection/* $CYANOGEN_BASE_PATH/
+  cp -rpv $BUILD_PWD/android_injection/* $CYANOGEN_BASE_PATH/
 }
 
 function buildImage
@@ -50,7 +50,7 @@ sudo cp -rf $DESTINATION_PATH/gapps/system $DESTINATION_PATH/mount/
 #sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/system/vendor/lib/hw/hwcomposer.omap4.so $DESTINATION_PATH/mount/system/vendor/lib/hw/hwcomposer.omap4.so
 
 echo "Copy init.rc and ueventd.rc ..."
-sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/init.rc $DESTINATION_PATH/mount/init.rc
+#sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/init.rc $DESTINATION_PATH/mount/init.rc
 sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/ueventd.rc $DESTINATION_PATH/mount/ueventd.rc
 
 echo "Copy builded sgx module ..."
@@ -95,7 +95,7 @@ function makeProject
     fi
 
     echo "Now building the project..."
-    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j12
+    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j12 ${@:2}
     cd $BUILD_PWD
 }
 
@@ -127,10 +127,10 @@ case "$1" in
 	buildImage
 ;;
 "make")
-	makeProject dummyArg
+	makeProject dummyArg ${@:2}
 ;;
 "makeFull")
-	makeProject clean
+	makeProject clean ${@:2}
 ;;
 "reset")
 	cleanGitRepos
