@@ -152,6 +152,7 @@ case "$1" in
 ;;
 "release")
 	makeProject dummyArg ${@:2} 2>&1 | tee build.log
+	buildImage
 	dateStr=`date +"%d_%m_%Y-%H_%M_%S"`
 	RELEASE_DIR_PATH=$BUILD_PWD/releases/$dateStr
 	mkdir $RELEASE_DIR_PATH
