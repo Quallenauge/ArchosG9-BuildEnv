@@ -151,18 +151,20 @@ case "$1" in
 	prepareLinaroToolChain
 ;;
 "release")
-	makeProject dummyArg ${@:2} 2>&1 | tee build.log
+#	makeProject dummyArg ${@:2} 2>&1 | tee build.log
 	dateStr=`date +"%d_%m_%Y-%H_%M_%S"`
-	mkdir ./releases/$dateStr
+	RELEASE_DIR_PATH=$BUILD_PWD/releases/$dateStr
+	mkdir $RELEASE_DIR_PATH
+	mkdir $RELEASE_DIR_PATH/revisions
 
-	cp $DESTINATION_PATH/archos.ext4.update ./releases/$dateStr/
-	cp $CYANOGEN_PRODUCT_PATH/kernel ./releases/$dateStr/
-	cp initramfs.cpio.lzo ./releases/$dateStr/
+	cp $DESTINATION_PATH/archos.ext4.update $RELEASE_DIR_PATH/
+	cp $CYANOGEN_PRODUCT_PATH/kernel $RELEASE_DIR_PATH/
+	cp initramfs.cpio.lzo $RELEASE_DIR_PATH/
 
-	git rev-parse HEAD >./releases/$dateStr/buildRepo_rev.txt
-	callRepo repo manifest -o "../releases/$dateStr/manifest.xml" -r
+	git rev-parse HEAD >$RELEASE_DIR_PATH/revisions/rev_buildRepo.txt
+	callRepo repo manifest -o "$RELEASE_DIR_PATH/revisions/manifest.xml" -r
 	cd android_injection
-	git rev-parse HEAD >../releases/$dateStr/android_injection_rev.txt
+	git rev-parse HEAD >$RELEASE_DIR_PATH/revisions/rev_android_injection.txt
 ;;
 *)
 	echo "Command $1 not supported"
