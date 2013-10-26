@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#exit on first error
+set -e
+
 export BUILD_PWD=`pwd`
 
 export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-10.2
@@ -53,15 +56,21 @@ echo "Copy init.rc and ueventd.rc ..."
 #sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/init.rc $DESTINATION_PATH/mount/init.rc
 sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/ueventd.rc $DESTINATION_PATH/mount/ueventd.rc
 
-echo "Copy builded sgx module ..."
+echo "Copy build sgx module ..."
 sudo cp $CYANOGEN_BASE_PATH/out/target/product/archos_g9/target/pvrsrvkm_sgx540_120.ko $DESTINATION_PATH/mount/system/lib/modules/pvrsrvkm_sgx540_120.ko
 
 echo "Symlinking gralloc library ..."
 sudo ln -s gralloc.omap4430.so $DESTINATION_PATH/mount/system/vendor/lib/hw/gralloc.archos.so
 
 echo "Set permissions for su"
+echo "Avoiding the suid bit - this doesn't work on Android 4.3..."
 sudo chown 0:0 $DESTINATION_PATH/mount/system/xbin/su
-sudo chmod 6755 $DESTINATION_PATH/mount/system/xbin/su
+#sudo chmod 6755 $DESTINATION_PATH/mount/system/xbin/su
+sudo chmod 06755 $DESTINATION_PATH/mount/system/bin/su
+sudo chown 0:0 $DESTINATION_PATH/mount/system/bin/su
+#sudo chmod 6755 $DESTINATION_PATH/mount/system/bin/su
+sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/su
+
 
 #echo "Workaround for libedid.so because it crashes the hwcomposer. /system/lib/libedid.so is renamed into /system/lib/libedid.so.bak"
 #sudo mv $DESTINATION_PATH/mount/system/lib/libedid.so $DESTINATION_PATH/mount/system/lib/libedid.so.bak
@@ -140,6 +149,20 @@ case "$1" in
 ;;
 "prepareLinaro")
 	prepareLinaroToolChain
+;;
+"release")
+	makeProject dummyArg ${@:2} 2>&1 | tee build.log
+	dateStr=`date +"%d_%m_%Y-%H_%M_%S"`
+	mkdir ./releases/$dateStr
+
+	cp $DESTINATION_PATH/archos.ext4.update ./releases/$dateStr/
+	cp $CYANOGEN_PRODUCT_PATH/kernel ./releases/$dateStr/
+	cp initramfs.cpio.lzo ./releases/$dateStr/
+
+	git rev-parse HEAD >./releases/$dateStr/buildRepo_rev.txt
+	callRepo repo manifest -o "../releases/$dateStr/manifest.xml" -r
+	cd android_injection
+	git rev-parse HEAD >../releases/$dateStr/android_injection_rev.txt
 ;;
 *)
 	echo "Command $1 not supported"
