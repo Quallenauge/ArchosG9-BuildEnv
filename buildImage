@@ -94,7 +94,10 @@ function makeProject
     echo "$CYANOGEN_BASE_PATH: Rebuilding bionic headers, based from external/kernel-headers package"
     cd $CYANOGEN_BASE_PATH
 
-    ./bionic/libc/kernel/tools/update_all.py
+    if [ $1 != "nobionic" ]; then
+	echo "Update bionic kernel headers..."
+	./bionic/libc/kernel/tools/update_all.py
+    fi
 
     inject
 
@@ -138,6 +141,10 @@ case "$1" in
 "make")
 	makeProject dummyArg ${@:2}
 ;;
+"makeLight")
+	makeProject nobionic ${@:2}
+;;
+
 "makeFull")
 	makeProject clean ${@:2}
 ;;
