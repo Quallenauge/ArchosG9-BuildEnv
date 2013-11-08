@@ -42,7 +42,7 @@ sudo tar xfj archos_base_image.tar.bz2 -C $DESTINATION_PATH/mount/
 # Base image has an tmp folder. I'm too lazy to change the image and upload a new one...so modify does also the trick.
 if [ -e $DESTINATION_PATH/mount/tmp ];
 then
-  rm -rf $DESTINATION_PATH/mount/tmp
+  sudo rm -rf $DESTINATION_PATH/mount/tmp
 fi
 
 echo "Copy root folder from cyanogen mod..."
