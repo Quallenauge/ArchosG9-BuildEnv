@@ -39,6 +39,12 @@ sudo rm -rf $DESTINATION_PATH/mount/*
 echo "Extracting base image"
 sudo tar xfj archos_base_image.tar.bz2 -C $DESTINATION_PATH/mount/
 
+# Base image has an tmp folder. I'm too lazy to change the image and upload a new one...so modify does also the trick.
+if [ -e $DESTINATION_PATH/mount/tmp ];
+then
+  rm -rf $DESTINATION_PATH/mount/tmp
+fi
+
 echo "Copy root folder from cyanogen mod..."
 sudo cp -rf $CYANOGEN_PRODUCT_PATH/root/* $DESTINATION_PATH/mount/
 
@@ -48,12 +54,7 @@ sudo cp -rf $CYANOGEN_PRODUCT_PATH/system $DESTINATION_PATH/mount/
 echo "Copy gapps package..."
 sudo cp -rf $DESTINATION_PATH/gapps/system $DESTINATION_PATH/mount/
 
-# Not needed anymore
-#echo "Copy hwcomposer.so ..."
-#sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/system/vendor/lib/hw/hwcomposer.omap4.so $DESTINATION_PATH/mount/system/vendor/lib/hw/hwcomposer.omap4.so
-
 echo "Copy init.rc and ueventd.rc ..."
-#sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/init.rc $DESTINATION_PATH/mount/init.rc
 sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/ueventd.rc $DESTINATION_PATH/mount/ueventd.rc
 
 echo "Copy build sgx module ..."
@@ -65,10 +66,8 @@ sudo ln -s gralloc.omap4430.so $DESTINATION_PATH/mount/system/vendor/lib/hw/gral
 echo "Set permissions for su"
 echo "Avoiding the suid bit - this doesn't work on Android 4.3..."
 sudo chown 0:0 $DESTINATION_PATH/mount/system/xbin/su
-#sudo chmod 6755 $DESTINATION_PATH/mount/system/xbin/su
 sudo chmod 06755 $DESTINATION_PATH/mount/system/bin/su
 sudo chown 0:0 $DESTINATION_PATH/mount/system/bin/su
-#sudo chmod 6755 $DESTINATION_PATH/mount/system/bin/su
 sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/su
 
 
@@ -166,8 +165,8 @@ case "$1" in
 	mkdir $RELEASE_DIR_PATH/revisions
 
 	cp $DESTINATION_PATH/archos.ext4.update $RELEASE_DIR_PATH/
-	cp $CYANOGEN_PRODUCT_PATH/kernel $RELEASE_DIR_PATH/
-	cp initramfs.cpio.lzo $RELEASE_DIR_PATH/
+	cp $CYANOGEN_PRODUCT_PATH/kernel $RELEASE_DIR_PATH/zImage
+	cp initramfs.cpio.lzo $RELEASE_DIR_PATH/initramfs.cpio.lzo
 
 	git rev-parse HEAD >$RELEASE_DIR_PATH/revisions/rev_buildRepo.txt
 	callRepo repo manifest -o "$RELEASE_DIR_PATH/revisions/manifest.xml" -r
