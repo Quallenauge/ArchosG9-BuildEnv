@@ -63,6 +63,8 @@ sudo cp $CYANOGEN_BASE_PATH/out/target/product/archos_g9/target/pvrsrvkm_sgx540_
 echo "Symlinking gralloc library ..."
 sudo ln -s gralloc.omap4430.so $DESTINATION_PATH/mount/system/vendor/lib/hw/gralloc.archos.so
 
+sudo chmod 0755 $DESTINATION_PATH/mount/system/vendor/bin/*
+
 echo "Set permissions for su"
 echo "Avoiding the suid bit - this doesn't work on Android 4.3..."
 sudo chown 0:0 $DESTINATION_PATH/mount/system/xbin/su
@@ -106,7 +108,7 @@ function makeProject
     fi
 
     echo "Now building the project..."
-    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j12 ${@:2}
+    . build/envsetup.sh && lunch cm_archos_g9-userdebug && mka ${@:2}
     cd $BUILD_PWD
 }
 
