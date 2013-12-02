@@ -104,7 +104,7 @@ function makeProject
     fi
 
     echo "Now building the project..."
-    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j12 ${@:2}
+    . build/envsetup.sh && lunch cm_archos_g9-userdebug && make -j2 ${@:2}
     cd $BUILD_PWD
 }
 
@@ -146,6 +146,53 @@ case "$1" in
 ;;
 "inject")
 	inject
+;;
+"sync")
+  dateStr=`date +"%d_%m_%Y-%H_%M_%S"`
+  LAST_REV_FILE=$BUILD_PWD/lastRevs.txt
+  cd $CYANOGEN_BASE_PATH
+  if [ -e $LAST_REV_FILE ]; then
+    echo "Last sync wasn't successful...using last revisions"
+  else
+    echo "Creating new revision file"
+    repo forall -c 'echo "`pwd`|`git rev-parse HEAD`"' >$LAST_REV_FILE
+  fi
+  echo "Updating repo...."
+  cd $CYANOGEN_PRODUCT_PATH
+  repo sync
+  if [ 0 == $? ]; then
+    echo "Sync was successful...creating changelog now"
+    OUT_FILE=$BUILD_PWD/Changes_$dateStr.txt
+    set -e
+
+    echo "" >$OUT_FILE
+
+    while read line; do
+      #echo "$line"
+      FOLDER=`echo $line | cut -d'|' -f1`
+      HASH=`echo $line | cut -d'|' -f2`
+      
+      #echo "Folder=$FOLDER"
+      #echo "Hash=$HASH"
+      cd $FOLDER
+      echo "Checking $FOLDER"
+#     if [ `git rev-list --max-count=2 --all | wc -l` -eq 1 ]; then
+#	echo "Skipping repo, because only one commit available"
+#	continue
+#     fi
+      NEW_HASH=`git rev-parse HEAD`
+      if [ "$NEW_HASH" != "$HASH" ]; then    
+	echo "Folder $FOLDER has changed... $NEW_HASH != $HASH"
+	echo "-----------------------------------------------------------------" >>$OUT_FILE
+	echo "$FOLDER $HASH..$NEW_HASH" >>$OUT_FILE
+	git log $HASH..$NEW_HASH >>$OUT_FILE
+	#git log $NEW_HASH..$HASH >>$OUT_FILE
+      fi
+    done < $LAST_REV_FILE
+  fi
+  echo "Backup last revision file..."
+  mv $LAST_REV_FILE "$LAST_REV_FILE"_"$dateStr"
+  cd $BUILD_PWD  
 ;;
 "prepareLinaro")
 	prepareLinaroToolChain
