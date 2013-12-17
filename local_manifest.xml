@@ -27,6 +27,9 @@
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-10.2_oldschool"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-10.2"  remote="Quallenauge" /> 
 
+        <!-- External apps -->
+        <project path="packages/apps/ArchosControlPanel" name="mordesku/archos_control_panel" revision="master"  remote="Quallenauge" />
+
 	<!-- linux firmware repository -->
 	<project path="hardware/linux-firmware" name="pub/scm/linux/kernel/git/dwmw2/linux-firmware" revision="629bb88092f679a2287ff0c84c499ce4da2d5970" remote="LinuxKernel" />
         
