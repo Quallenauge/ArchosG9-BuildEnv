@@ -76,8 +76,10 @@ sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/su
 #echo "Workaround for libedid.so because it crashes the hwcomposer. /system/lib/libedid.so is renamed into /system/lib/libedid.so.bak"
 #sudo mv $DESTINATION_PATH/mount/system/lib/libedid.so $DESTINATION_PATH/mount/system/lib/libedid.so.bak
 
-#echo "Workaround for camera.omap4.so because it crashes the hwcomposer. /system/lib/hw/camera.omap4.so is renamed into /system/lib/hw/camera.omap4.so.bak"
-#sudo mv $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so.bak
+echo "Correcting permission for initd and compcache binaries"
+sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/handle_compcache
+sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/compcache
+sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/sysinit
 
 echo "Unmounting base image..."
 sudo umount $DESTINATION_PATH/mount
