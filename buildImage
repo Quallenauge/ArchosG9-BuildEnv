@@ -5,7 +5,7 @@ set -e
 
 export BUILD_PWD=`pwd`
 
-export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-10.2
+export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-11.0
 export CYANOGEN_PRODUCT_PATH=$CYANOGEN_BASE_PATH/out/target/product/archos_g9
 
 export DESTINATION_PATH=$BUILD_PWD/archos_image
@@ -72,12 +72,13 @@ sudo chmod 06755 $DESTINATION_PATH/mount/system/bin/su
 sudo chown 0:0 $DESTINATION_PATH/mount/system/bin/su
 sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/su
 
+echo "Removing sgx544 libraries"
+sudo find $DESTINATION_PATH/mount/system/vendor/lib/ -name "*544*" -exec rm {} +
 
-#echo "Workaround for libedid.so because it crashes the hwcomposer. /system/lib/libedid.so is renamed into /system/lib/libedid.so.bak"
-#sudo mv $DESTINATION_PATH/mount/system/lib/libedid.so $DESTINATION_PATH/mount/system/lib/libedid.so.bak
-
-#echo "Workaround for camera.omap4.so because it crashes the hwcomposer. /system/lib/hw/camera.omap4.so is renamed into /system/lib/hw/camera.omap4.so.bak"
-#sudo mv $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so $DESTINATION_PATH/mount/system/lib/hw/camera.omap4.so.bak
+echo "Correcting permission for initd and compcache binaries"
+#sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/handle_compcache
+#sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/compcache
+sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/sysinit
 
 echo "Unmounting base image..."
 sudo umount $DESTINATION_PATH/mount
@@ -108,7 +109,7 @@ function makeProject
     fi
 
     echo "Now building the project..."
-    . build/envsetup.sh && lunch cm_archos_g9-userdebug && mka ${@:2}
+    . build/envsetup.sh && lunch cm_archos_g9-userdebug && mka update-api && mka ${@:2}
     cd $BUILD_PWD
 }
 
@@ -130,6 +131,14 @@ function prepareLinaroToolChain
 	rm -rf linaro-4.7
     fi
     mv android-toolchain-eabi linaro-4.7
+}
+
+function applyCherryPicks
+{
+    # SoftapControllerTI: update parameters for setSoftap
+    # http://review.cyanogenmod.org/#/c/55805/
+    cd $CYANOGEN_BASE_PATH/system/netd
+    git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_netd refs/changes/05/55805/1 && git cherry-pick FETCH_HEAD
 }
 
 case "$1" in
@@ -158,6 +167,62 @@ case "$1" in
 "prepareLinaro")
 	prepareLinaroToolChain
 ;;
+"sync")
+  echo "Perform an inject to ensure that changes are not overwritten..."
+  if [ $# -eq 1 ];then
+    inject
+  fi
+
+  dateStr=`date +"%d_%m_%Y-%H_%M_%S"`
+  LAST_REV_FILE=$BUILD_PWD/lastRevs.txt
+  cd $CYANOGEN_BASE_PATH
+  if [ -e $LAST_REV_FILE ]; then
+    echo "Last sync wasn't successful...using last revisions"
+  else
+    echo "Creating new revision file"
+    repo forall -c 'echo "`pwd`|`git rev-parse HEAD`"' >$LAST_REV_FILE
+  fi
+  echo "Updating repo...."
+  cd $CYANOGEN_PRODUCT_PATH
+  repo sync
+  if [ 0 == $? ]; then
+    echo "Sync was successful...creating changelog now"
+    OUT_FILE=$BUILD_PWD/Changes_$dateStr.txt
+    set -e
+
+    echo "" >$OUT_FILE
+
+    while read line; do
+      #echo "$line"
+      FOLDER=`echo $line | cut -d'|' -f1`
+      HASH=`echo $line | cut -d'|' -f2`
+
+      #echo "Folder=$FOLDER"
+      #echo "Hash=$HASH"
+      cd $FOLDER
+      echo "Checking $FOLDER"
+#     if [ `git rev-list --max-count=2 --all | wc -l` -eq 1 ]; then
+#       echo "Skipping repo, because only one commit available"
+#       continue
+#     fi
+      NEW_HASH=`git rev-parse HEAD`
+      if [ "$NEW_HASH" != "$HASH" ]; then
+        echo "Folder $FOLDER has changed... $NEW_HASH != $HASH"
+        echo "-----------------------------------------------------------------" >>$OUT_FILE
+        echo "$FOLDER $HASH..$NEW_HASH" >>$OUT_FILE
+        git log $HASH..$NEW_HASH >>$OUT_FILE
+        #git log $NEW_HASH..$HASH >>$OUT_FILE
+      fi
+    done < $LAST_REV_FILE
+  fi
+  echo "Backup last revision file..."
+  mv $LAST_REV_FILE "$LAST_REV_FILE"_"$dateStr"
+  cd $BUILD_PWD
+
+  echo "Apply cherry picks..."
+  applyCherryPicks  
+
+;;
 "release")
 	makeProject dummyArg ${@:2} 2>&1 | tee build.log
 	buildImage
@@ -174,6 +239,9 @@ case "$1" in
 	callRepo repo manifest -o "$RELEASE_DIR_PATH/revisions/manifest.xml" -r
 	cd android_injection
 	git rev-parse HEAD >$RELEASE_DIR_PATH/revisions/rev_android_injection.txt
+;;
+"cherryPicks")
+	applyCherryPicks
 ;;
 *)
 	echo "Command $1 not supported"
