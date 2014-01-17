@@ -15,13 +15,13 @@
                 fetch="git://git.kernel.org" />
 
   	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/>
+  	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
 <!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/> -->
-	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
-	<remove-project name="CyanogenMod/android_hardware_ti_wlan"/>
+<!--	<remove-project name="CyanogenMod/android_hardware_ti_wlan"/> -->
 
         <!-- Quallenauge kernel repository -->
         <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-kk-3.0.21"  remote="Quallenauge" />
-        <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="master"  remote="Quallenauge" />
+        <!--<project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="master"  remote="Quallenauge" /> -->
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-11.0"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-11.0"  remote="Quallenauge" /> 
 
@@ -30,13 +30,13 @@
         <project path="packages/apps/Trebuchet" name="CyanogenMod/android_packages_apps_Trebuchet" revision="cm-11.0"  remote="Quallenauge" />
 
 	<!-- Testing -->
-	<project path="hardware/ti/wlan" name="KFire-Android/android_hardware_ti_wlan" revision="cm-11.0" remote="Quallenauge" /> 
+	<!-- <project path="hardware/ti/wlan" name="KFire-Android/android_hardware_ti_wlan" revision="cm-11.0" remote="Quallenauge" />  -->
 
 	<!-- Build HostAP from TI only -->
-	<project path="external/wpa_supplicant_8_ti" name="stargo/android_external_wpa_supplicant_8_ti" revision="cm-11.0" remote="Quallenauge" /> 
+	<!-- <project path="external/wpa_supplicant_8_ti" name="stargo/android_external_wpa_supplicant_8_ti" revision="cm-11.0" remote="Quallenauge" />  -->
 
 	<!-- linux firmware repository -->
-	<project path="hardware/linux-firmware" name="pub/scm/linux/kernel/git/dwmw2/linux-firmware" revision="629bb88092f679a2287ff0c84c499ce4da2d5970" remote="LinuxKernel" />
+	<!-- <project path="hardware/linux-firmware" name="pub/scm/linux/kernel/git/dwmw2/linux-firmware" revision="629bb88092f679a2287ff0c84c499ce4da2d5970" remote="LinuxKernel" /> -->
         
         <!-- TI specific addons -->
         <project path="external/bltsville" name="platform/external/bltsville" revision="master"  remote="omap-mirror">
@@ -46,12 +46,6 @@
                 <annotation name="vendor" value="ti"/>
         </project>
 
-        <project path="device/ti/omap5sevm" name="device/ti/omap5sevm" revision="jb-release"  remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
-        <project path="device/ti/panda5" name="device/ti/panda5" revision="jb-release" remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
         <project path="hardware/ti/dvp" name="platform/hardware/ti/dvp" revision="master" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
@@ -61,10 +55,6 @@
         <project path="device/ti/common-open" name="device/ti/common-open" revision="jb-release" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-        <project path="packages/apps/OMAPCamera" name="platform/packages/apps/OMAPCamera" revision="jb-release"  remote="omap-mirror">
-                <annotation name="vendor" value="ti"/>
-        </project>
-
         <!--
         <project path="external/wpa_supplicant_8_ti" name="platform/external/wpa_supplicant_8_ti" revision="d-jb-mr1-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
