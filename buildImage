@@ -135,10 +135,11 @@ function prepareLinaroToolChain
 
 function applyCherryPicks
 {
+    echo "Performing cherry-picks..."
     # SoftapControllerTI: update parameters for setSoftap
     # http://review.cyanogenmod.org/#/c/55805/
-    cd $CYANOGEN_BASE_PATH/system/netd
-    git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_netd refs/changes/05/55805/1 && git cherry-pick FETCH_HEAD
+#    cd $CYANOGEN_BASE_PATH/system/netd
+#    git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_netd refs/changes/05/55805/2 && git cherry-pick FETCH_HEAD
 }
 
 case "$1" in
