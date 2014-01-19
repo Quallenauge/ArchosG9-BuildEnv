@@ -184,7 +184,8 @@ case "$1" in
     repo forall -c 'echo "`pwd`|`git rev-parse HEAD`"' >$LAST_REV_FILE
   fi
   echo "Updating repo...."
-  cd $CYANOGEN_PRODUCT_PATH
+#  cd $CYANOGEN_PRODUCT_PATH
+  cd $CYANOGEN_BASE_PATH
   repo sync
   if [ 0 == $? ]; then
     echo "Sync was successful...creating changelog now"
@@ -240,6 +241,10 @@ case "$1" in
 	callRepo repo manifest -o "$RELEASE_DIR_PATH/revisions/manifest.xml" -r
 	cd android_injection
 	git rev-parse HEAD >$RELEASE_DIR_PATH/revisions/rev_android_injection.txt
+	
+	LAST_REV_FILE=$RELEASE_DIR_PATH/revisions/lastRevs.txt
+	echo "Creating revision file from current state for release..."
+	repo forall -c 'echo "`pwd`|`git rev-parse HEAD`"' >$LAST_REV_FILE
 ;;
 "cherryPicks")
 	applyCherryPicks
