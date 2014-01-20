@@ -63,7 +63,7 @@
 
 	<!-- Revision for tag RLS4AJ.2.2_JellyBean-->
 	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="b78855bdf9a22b06d5c1017504fe55f1dc941996" remote="omap-mirror"/>
-	<project name="platform/hardware/ti/domx" path="hardware/ti/domx" revision="7a5b1ab9a136796f7a07dd1738b50dc8165cc953" upstream="master">
+	<project name="platform/hardware/ti/domx" path="hardware/ti/domx" revision="7a5b1ab9a136796f7a07dd1738b50dc8165cc953" upstream="master" remote="omap-mirror"/>
 	    <annotation name="vendor" value="ti"/>
 	</project>
 
