@@ -135,11 +135,25 @@ function prepareLinaroToolChain
 
 function applyCherryPicks
 {
+    set +e
     echo "Performing cherry-picks..."
-    # SoftapControllerTI: update parameters for setSoftap
-    # http://review.cyanogenmod.org/#/c/55805/
-#    cd $CYANOGEN_BASE_PATH/system/netd
-#    git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_netd refs/changes/05/55805/2 && git cherry-pick FETCH_HEAD
+#    # wl127x/wl128x: add firmware from linux-firmware.git
+#    # http://review.cyanogenmod.org/#/c/57983/
+     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/83/57983/2 && git cherry-pick FETCH_HEAD
+
+#    # Add backports-3.12-1 drivers
+     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/82/57982/3 && git cherry-pick FETCH_HEAD
+
+#    # backports: Add wl12xx defconfig
+     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/84/57984/2 && git cherry-pick FETCH_HEAD
+
+     # SUPL early data connection fix
+     #http://review.cyanogenmod.org/#/c/57621/
+     cd $CYANOGEN_BASE_PATH/frameworks/base
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/21/57621/3 && git cherry-pick FETCH_HEAD
 }
 
 case "$1" in
@@ -242,6 +256,7 @@ case "$1" in
 	cd android_injection
 	git rev-parse HEAD >$RELEASE_DIR_PATH/revisions/rev_android_injection.txt
 	
+	cd $BUILD_PWD
 	LAST_REV_FILE=$RELEASE_DIR_PATH/revisions/lastRevs.txt
 	echo "Creating revision file from current state for release..."
 	repo forall -c 'echo "`pwd`|`git rev-parse HEAD`"' >$LAST_REV_FILE
