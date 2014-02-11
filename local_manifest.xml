@@ -20,14 +20,14 @@
 <!--	<remove-project name="CyanogenMod/android_hardware_ti_wlan"/> -->
 
         <!-- Quallenauge kernel repository -->
-        <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-kk-3.0.21_experimental"  remote="Quallenauge" />
-        <!--<project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="master"  remote="Quallenauge" /> -->
+        <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-3-crazy-mmc"  remote="Quallenauge" />
+        <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="3.13-1"  remote="Quallenauge" />
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-11.0"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-11.0"  remote="Quallenauge" /> 
 
 	<!-- External apps -->
         <project path="packages/apps/ArchosControlPanel" name="Quallenauge/archos_control_panel" revision="master"  remote="Quallenauge" />
-        <project path="packages/apps/Trebuchet" name="CyanogenMod/android_packages_apps_Trebuchet" revision="cm-11.0"  remote="Quallenauge" />
+<!--        <project path="packages/apps/Trebuchet" name="CyanogenMod/android_packages_apps_Trebuchet" revision="cm-11.0"  remote="Quallenauge" /> -->
 
 	<!-- Testing -->
 	<!-- <project path="hardware/ti/wlan" name="KFire-Android/android_hardware_ti_wlan" revision="cm-11.0" remote="Quallenauge" />  -->
@@ -42,10 +42,11 @@
         <project path="external/bltsville" name="platform/external/bltsville" revision="master"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
+        <!--
         <project path="external/crda" name="platform/external/crda" revision="jb-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
-
+	-->
         <project path="hardware/ti/dvp" name="platform/hardware/ti/dvp" revision="master" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>

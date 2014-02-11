@@ -137,23 +137,50 @@ function applyCherryPicks
 {
     set +e
     echo "Performing cherry-picks..."
+
+     # Update ccache to aosp version 3.1 which is faaast
+     cd $CYANOGEN_BASE_PATH/prebuilts/misc
+     git fetch https://android.googlesource.com/platform/prebuilts/misc refs/changes/22/66622/1 && git cherry-pick FETCH_HEAD
+
 #    # wl127x/wl128x: add firmware from linux-firmware.git
 #    # http://review.cyanogenmod.org/#/c/57983/
-     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/83/57983/2 && git cherry-pick FETCH_HEAD
+     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/83/57983/2 && git cherry-pick FETCH_HEAD
 
 #    # Add backports-3.12-1 drivers
-     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/82/57982/3 && git cherry-pick FETCH_HEAD
+     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/82/57982/3 && git cherry-pick FETCH_HEAD
 
 #    # backports: Add wl12xx defconfig
+     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/84/57984/2 && git cherry-pick FETCH_HEAD
+
+     # WLAN - wl12xx: Update to R5.SP7.01 from R5.SP5.01 package
+     # http://review.cyanogenmod.org/#/c/58549/
+#     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+#     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/49/58549/1 && git cherry-pick FETCH_HEAD
+
      cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/84/57984/2 && git cherry-pick FETCH_HEAD
+     # Use AOSP version of wpa_supplicant_lib
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/89/54289/4 && git cherry-pick FETCH_HEAD
 
      # SUPL early data connection fix
      #http://review.cyanogenmod.org/#/c/57621/
      cd $CYANOGEN_BASE_PATH/frameworks/base
      git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/21/57621/3 && git cherry-pick FETCH_HEAD
+     
+     cd $CYANOGEN_BASE_PATH/device/archos/archos_g9
+     git revert -n a8d734881cd5c493da777b590ba76a2ae827a840
+
+
+     cd $CYANOGEN_BASE_PATH/hardware/ril    
+    
+     # Set USE_NP based on HAVE_PTHREAD_COND_TIMEDWAIT_RELATIVE
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ril refs/changes/50/59050/1 && git cherry-pick FETCH_HEAD
+
+     # Send unsol_sim_status on radio_state change
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ril refs/changes/51/59051/1 && git cherry-pick FETCH_HEAD
+
 }
 
 case "$1" in
@@ -202,6 +229,9 @@ case "$1" in
   cd $CYANOGEN_BASE_PATH
   repo sync
   if [ 0 == $? ]; then
+    echo "Apply cherry picks..."
+    applyCherryPicks  
+
     echo "Sync was successful...creating changelog now"
     OUT_FILE=$BUILD_PWD/Changes_$dateStr.txt
     set -e
@@ -234,10 +264,6 @@ case "$1" in
   echo "Backup last revision file..."
   mv $LAST_REV_FILE "$LAST_REV_FILE"_"$dateStr"
   cd $BUILD_PWD
-
-  echo "Apply cherry picks..."
-  applyCherryPicks  
-
 ;;
 "release")
 	makeProject dummyArg ${@:2} 2>&1 | tee build.log
@@ -256,7 +282,7 @@ case "$1" in
 	cd android_injection
 	git rev-parse HEAD >$RELEASE_DIR_PATH/revisions/rev_android_injection.txt
 	
-	cd $BUILD_PWD
+	cd $CYANOGEN_BASE_PATH
 	LAST_REV_FILE=$RELEASE_DIR_PATH/revisions/lastRevs.txt
 	echo "Creating revision file from current state for release..."
 	repo forall -c 'echo "`pwd`|`git rev-parse HEAD`"' >$LAST_REV_FILE
