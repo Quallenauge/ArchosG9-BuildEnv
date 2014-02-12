@@ -181,6 +181,11 @@ function applyCherryPicks
      # Send unsol_sim_status on radio_state change
      git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ril refs/changes/51/59051/1 && git cherry-pick FETCH_HEAD
 
+
+     cd $CYANOGEN_BASE_PATH/bionic
+     # libm: use neon optimized sin/cos/pow/sqrt/sqrtf
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/27/59527/1 && git cherry-pick FETCH_HEAD
+
 }
 
 case "$1" in

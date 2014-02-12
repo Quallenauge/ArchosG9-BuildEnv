@@ -7,18 +7,19 @@ To build do the following steps:
 
 Use base tar image from this post:
 http://forum.xda-developers.com/showpost.php?p=37634328&postcount=104
+https://mega.co.nz/#!jYUCzaxR!3pArIHnYte9pyUJ6nTMChckE-CKrupIMFWm_4yOyY9U
 and place it into this folder.
 
 ```bash
 mkdir archos_image
 Download or create a archos.ext4.update file and place it into this folder.
 ```
-# Init the CM10.1 repository
+# Init the CM repository
 ```bash
-repo init -u git://github.com/CyanogenMod/android.git -b cm10.1
+repo init -u git://github.com/CyanogenMod/android.git -b cm11.0
 ln -s local_manifest.xml .repo/local_manifests/local_manifest.xml
 
-# Download and install the linaro toolchain
+# Optional: Download and install the linaro toolchain
 ./buildImage prepareLinaro
 
 # Sync the repository

@@ -5,3 +5,7 @@ releases/
 test/
 archos_image/
 android_injection/
+Changes_*
+lastRevs.txt*
+build.log
+archos_base_image.tar.bz2*
