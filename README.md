@@ -6,7 +6,7 @@ Build Environment for Archos G9 devices
 To build do the following steps:
 
 Use base tar image from this post:
-http://forum.xda-developers.com/showpost.php?p=37634328&postcount=104
+http://forum.xda-developers.com/showpost.php?p=37634328&postcount=104  
 https://mega.co.nz/#!jYUCzaxR!3pArIHnYte9pyUJ6nTMChckE-CKrupIMFWm_4yOyY9U
 and place it into this folder.
 
