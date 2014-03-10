@@ -16,18 +16,18 @@ Download or create a archos.ext4.update file and place it into this folder.
 ```
 # Init the CM repository
 ```bash
-repo init -u git://github.com/CyanogenMod/android.git -b cm11.0
+repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
 ln -s local_manifest.xml .repo/local_manifests/local_manifest.xml
 
 # Optional: Download and install the linaro toolchain
 ./buildImage prepareLinaro
 
 # Sync the repository
-./buildImage repo sync
+./buildImage sync
 ```
 # Init the android injection repository
 ```bash
-git clone git@github.com:Quallenauge/android_injection.git -b cm10.1_linaro
+git clone git@github.com:Quallenauge/android_injection.git -b cm-11.0
 ```
 
 # Build cyanogenmod
