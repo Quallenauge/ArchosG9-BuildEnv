@@ -14,16 +14,23 @@
         <remote name="LinuxKernel"
                 fetch="git://git.kernel.org" />
 
+	<remote name="HostAP"
+		fetch="git://w1.fi" />
+
   	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/>
   	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
 <!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/> -->
 <!--	<remove-project name="CyanogenMod/android_hardware_ti_wlan"/> -->
+
+	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8"/>
 
         <!-- Quallenauge kernel repository -->
         <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-3-crazy-mmc"  remote="Quallenauge" />
         <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="3.13-1"  remote="Quallenauge" />
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-11.0"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-11.0"  remote="Quallenauge" /> 
+        <project path="external/wpa_supplicant_8" name="Quallenauge/wpa_supplicant_8" revision="kitkat_ca"  remote="Quallenauge" />  -->
+<!--        <project path="external/wpa_supplicant_8" name="hostap" revision="android-kk"  remote="HostAP" />  -->
 
 	<!-- External apps -->
         <project path="packages/apps/ArchosControlPanel" name="Quallenauge/archos_control_panel" revision="master"  remote="Quallenauge" />
