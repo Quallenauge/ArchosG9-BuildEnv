@@ -17,7 +17,7 @@
 	<remote name="HostAP"
 		fetch="git://w1.fi" />
 
-  	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/>
+<!--  	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/> -->
   	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
 <!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/> -->
 <!--	<remove-project name="CyanogenMod/android_hardware_ti_wlan"/> -->
@@ -28,6 +28,7 @@
         <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-3-crazy-mmc"  remote="Quallenauge" />
         <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="3.13-1"  remote="Quallenauge" />
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-11.0"  remote="Quallenauge" />
+	<project path="device/archos/omap4-common" name="Quallenauge/android_device_archos_omap4_common" revision="cm-11.0"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-11.0"  remote="Quallenauge" /> 
         <project path="external/wpa_supplicant_8" name="Quallenauge/wpa_supplicant_8" revision="kitkat_ca"  remote="Quallenauge" />  -->
 <!--        <project path="external/wpa_supplicant_8" name="hostap" revision="android-kk"  remote="HostAP" />  -->
@@ -46,9 +47,11 @@
 	<!-- <project path="hardware/linux-firmware" name="pub/scm/linux/kernel/git/dwmw2/linux-firmware" revision="629bb88092f679a2287ff0c84c499ce4da2d5970" remote="LinuxKernel" /> -->
         
         <!-- TI specific addons -->
+	<!--
         <project path="external/bltsville" name="platform/external/bltsville" revision="master"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
+	-->
         <!--
         <project path="external/crda" name="platform/external/crda" revision="jb-release"  remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
@@ -70,10 +73,13 @@
 	-->
 
 	<!-- Revision for tag RLS4AJ.2.2_JellyBean-->
-	<project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="b78855bdf9a22b06d5c1017504fe55f1dc941996" remote="omap-mirror"/>
-	<project name="platform/hardware/ti/domx" path="hardware/ti/domx" revision="7a5b1ab9a136796f7a07dd1738b50dc8165cc953" upstream="master" remote="omap-mirror">
+	<!-- <project path="hardware/ti/omap4xxx" name="platform/hardware/ti/omap4xxx" revision="b78855bdf9a22b06d5c1017504fe55f1dc941996" remote="omap-mirror"/> -->
+	<!-- <project name="platform/hardware/ti/domx" path="hardware/ti/domx" revision="7a5b1ab9a136796f7a07dd1738b50dc8165cc953" upstream="master" remote="omap-mirror">
 	    <annotation name="vendor" value="ti"/>
 	</project>
+	-->
+
+	<project name="sssemil/android_packages_apps_Compass" path="packages/apps/Compass2" remote="github" revision="cm-11.0" />
 
 
 </manifest>
