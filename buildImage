@@ -57,12 +57,6 @@ sudo cp -rf $DESTINATION_PATH/gapps/system $DESTINATION_PATH/mount/
 echo "Copy init.rc and ueventd.rc ..."
 sudo cp $CYANOGEN_BASE_PATH/device/archos/archos_g9/prebuilt/root/ueventd.rc $DESTINATION_PATH/mount/ueventd.rc
 
-echo "Copy build sgx module ..."
-sudo cp $CYANOGEN_BASE_PATH/out/target/product/archos_g9/target/pvrsrvkm_sgx540_120.ko $DESTINATION_PATH/mount/system/lib/modules/pvrsrvkm_sgx540_120.ko
-
-echo "Symlinking gralloc library ..."
-sudo ln -s gralloc.omap4430.so $DESTINATION_PATH/mount/system/vendor/lib/hw/gralloc.archos.so
-
 sudo chmod 0755 $DESTINATION_PATH/mount/system/vendor/bin/*
 
 echo "Set permissions for su"
@@ -168,12 +162,8 @@ function applyCherryPicks
      # SUPL early data connection fix
      #http://review.cyanogenmod.org/#/c/57621/
      cd $CYANOGEN_BASE_PATH/frameworks/base
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/21/57621/3 && git cherry-pick FETCH_HEAD
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/21/57621/4 && git cherry-pick FETCH_HEAD
      
-#     cd $CYANOGEN_BASE_PATH/device/archos/archos_g9
-#     git revert -n a8d734881cd5c493da777b590ba76a2ae827a840
-
-
      cd $CYANOGEN_BASE_PATH/hardware/ril    
     
      # Set USE_NP based on HAVE_PTHREAD_COND_TIMEDWAIT_RELATIVE
@@ -183,25 +173,41 @@ function applyCherryPicks
      # libm: use neon optimized sin/cos/pow/sqrt/sqrtf
      git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/27/59527/1 && git cherry-pick FETCH_HEAD
 
-     cd $CYANOGEN_BASE_PATH/art
-     # art: fix boot in art mode
-     # http://review.cyanogenmod.org/#/c/62152/
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_art refs/changes/52/62152/2 && git cherry-pick FETCH_HEAD
-
      cd $CYANOGEN_BASE_PATH/frameworks/base
-     # app ops: New ops, features, and modes
-     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/67/60067/2 && git cherry-pick FETCH_HEAD
-    
-     # Set some GC parameters only for dalvik
-     # http://review.cyanogenmod.org/#/c/62128/
-     # git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/28/62128/3 && git cherry-pick FETCH_HEAD
-
      # Restore pre-KitKat permissions to external sd for all apps
      # http://review.cyanogenmod.org/#/c/62028/
      git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/28/62028/2 && git cherry-pick FETCH_HEAD
 
      cd $CYANOGEN_BASE_PATH/frameworks/av/media/libstagefright/mpeg2ts/
-     git revert -n 5f648ff6
+     # Seems to crash ZDF mediathek livestream
+     # git revert -n 5f648ff6
+
+     cd $CYANOGEN_BASE_PATH/system/vold
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_vold refs/changes/30/62530/3 && git cherry-pick FETCH_HEAD
+
+     set -e
+     # GCC - Optimizations
+     cd $CYANOGEN_BASE_PATH/build
+     # 
+     git remote remove JustArchi_Build; git remote add JustArchi_Build https://github.com/JustArchi/android_build.git && git fetch JustArchi_Build && \
+     git cherry-pick --strategy=recursive -Xours 0cf89401cc8092dda959b5746ec4899fda756cec && \
+     git cherry-pick bb1d7f11ef866d829c7966a036a4b3a7d7519595
+  
+     cd $CYANOGEN_BASE_PATH/frameworks/av 
+     git remote remove temasek; git remote add temasek https://github.com/temasek/android_frameworks_av.git && git fetch temasek && git cherry-pick 31943d4724f0fb79235eae131f8d02ff6e97ddce
+
+     # Bash fix for "undefined reference to 'wctomb'"
+     cd $CYANOGEN_BASE_PATH/external/bash
+     git remote remove DJL10-2_BASH; git remote add DJL10-2_BASH https://github.com/DJL10-2/android_external_bash.git && git fetch DJL10-2_BASH && \
+     git cherry-pick 1ff746e4ce40ed7b58598b63f05b036f5b2b3120 && \
+     git cherry-pick d8e8146df5639f0ddc7c24d4a33923718b1966f7
+
+     
+
+     # Art fix
+     cd $CYANOGEN_BASE_PATH/art
+     git remote remove JustArchi_ART; git remote add JustArchi_ART https://github.com/JustArchi/android_art.git && git fetch JustArchi_ART && \
+     git cherry-pick 8354d2dc9d260ca67dbdf32e123bd4da62b8a68d
 
 }
 
@@ -267,7 +273,10 @@ case "$1" in
 
       #echo "Folder=$FOLDER"
       #echo "Hash=$HASH"
-      cd $FOLDER
+      if [ ! -d $FOLDER ]; then
+          continue;
+      fi
+      cd $FOLDER      
       echo "Checking $FOLDER"
 #     if [ `git rev-list --max-count=2 --all | wc -l` -eq 1 ]; then
 #       echo "Skipping repo, because only one commit available"
@@ -278,7 +287,9 @@ case "$1" in
         echo "Folder $FOLDER has changed... $NEW_HASH != $HASH"
         echo "-----------------------------------------------------------------" >>$OUT_FILE
         echo "$FOLDER $HASH..$NEW_HASH" >>$OUT_FILE
+        set +e
         git log $HASH..$NEW_HASH >>$OUT_FILE
+        set -e
         #git log $NEW_HASH..$HASH >>$OUT_FILE
       fi
     done < $LAST_REV_FILE
