@@ -17,12 +17,21 @@
 	<remote name="HostAP"
 		fetch="git://w1.fi" />
 
+	<remote name="git-ti-com"
+          fetch="git://git.ti.com" />
+
+	<remote name="bitbucket"
+	  fetch="https://bitbucket.org" />
+
+
+ 
+
 <!--  	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx"/> -->
   	<remove-project name="CyanogenMod/android_external_kernel-headers"/>
-<!--  	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/> -->
+	<!-- <remove-project name="CyanogenMod/android_external_wpa_supplicant_8_ti"/> -->
 <!--	<remove-project name="CyanogenMod/android_hardware_ti_wlan"/> -->
 
-	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8"/>
+<!--	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8"/> -->
 
         <!-- Quallenauge kernel repository -->
         <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-3-crazy-mmc"  remote="Quallenauge" />
@@ -30,7 +39,7 @@
         <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-11.0"  remote="Quallenauge" />
 	<project path="device/archos/omap4-common" name="Quallenauge/android_device_archos_omap4_common" revision="cm-11.0"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-11.0"  remote="Quallenauge" /> 
-        <project path="external/wpa_supplicant_8" name="Quallenauge/wpa_supplicant_8" revision="kitkat_ca"  remote="Quallenauge" />  -->
+<!--        <project path="external/wpa_supplicant_8" name="Quallenauge/wpa_supplicant_8" revision="kitkat_ca"  remote="Quallenauge" /> -->
 <!--        <project path="external/wpa_supplicant_8" name="hostap" revision="android-kk"  remote="HostAP" />  -->
 
 	<!-- External apps -->
@@ -80,6 +89,16 @@
 	-->
 
 	<project name="sssemil/android_packages_apps_Compass" path="packages/apps/Compass2" remote="github" revision="cm-11.0" />
+
+	<!-- WLAN -->
+	<!--<project path="external/wpa_supplicant_8_ti" name="wilink8-wlan/hostap" remote="git-ti-com" revision="refs/tags/ol_r8_a8.10_android_4.4" groups="ti" /> -->
+
+
+	<!-- LINARO TOOLCHAIN -->
+	<project name="temasek/linaro.git" path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" remote="Quallenauge" revision="4.8-eabi" />
+	<project name="Cl3Kener/sm-arm-androideabi-4.8" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8" remote="bitbucket" revision="master" />
+	<project name="Cl3Kener/sm-arm-eabi-4.10" path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.10" remote="bitbucket" revision="master" />
+	<project name="Cl3Kener/sm-arm-androideabi-4.10" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.10" remote="bitbucket" revision="master" />
 
 
 </manifest>
