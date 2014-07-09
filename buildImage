@@ -185,6 +185,16 @@ function applyCherryPicks
      cd $CYANOGEN_BASE_PATH/system/vold
      git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_vold refs/changes/30/62530/3 && git cherry-pick FETCH_HEAD
 
+
+     # Apply: Fix "FIONREAD not done before read" error 
+     cd $CYANOGEN_BASE_PATH/external/bluetooth/bluedroid
+     git remote remove Quallenauge_bluedroid; git remote add Quallenauge_bluedroid https://github.com/Quallenauge/android_external_bluetooth_bluedroid.git && git fetch Quallenauge_bluedroid && \
+     git cherry-pick 1fd6d85d2bbcbbfbc6f50b92f6a5c06d32243c8a
+     
+
+     cd $CYANOGEN_BASE_PATH/frameworks/base
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/14/66314/1 && git cherry-pick FETCH_HEAD
+
      set -e
      # GCC - Optimizations
      cd $CYANOGEN_BASE_PATH/build

@@ -23,6 +23,9 @@
 	<remote name="bitbucket"
 	  fetch="https://bitbucket.org" />
 
+        <remote name="google"
+          fetch="https://android.googlesource.com" />
+
 
  
 
@@ -32,6 +35,7 @@
 <!--	<remove-project name="CyanogenMod/android_hardware_ti_wlan"/> -->
 
 <!--	<remove-project name="CyanogenMod/android_external_wpa_supplicant_8"/> -->
+<!--	<remove-project name="CyanogenMod/android_art"/> -->
 
         <!-- Quallenauge kernel repository -->
         <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="linux-3-crazy-mmc"  remote="Quallenauge" />
@@ -92,6 +96,9 @@
 
 	<!-- WLAN -->
 	<!--<project path="external/wpa_supplicant_8_ti" name="wilink8-wlan/hostap" remote="git-ti-com" revision="refs/tags/ol_r8_a8.10_android_4.4" groups="ti" /> -->
+
+
+<!--	<project path="art" name="platform/art" remote="google" revision="master" />-->
 
 
 	<!-- LINARO TOOLCHAIN -->
