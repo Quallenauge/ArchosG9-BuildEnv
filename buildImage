@@ -171,7 +171,7 @@ function applyCherryPicks
 
      cd $CYANOGEN_BASE_PATH/bionic
      # libm: use neon optimized sin/cos/pow/sqrt/sqrtf
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/27/59527/1 && git cherry-pick FETCH_HEAD
+     # git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/27/59527/1 && git cherry-pick FETCH_HEAD
 
      cd $CYANOGEN_BASE_PATH/frameworks/base
      # Restore pre-KitKat permissions to external sd for all apps
@@ -208,11 +208,14 @@ function applyCherryPicks
 
      # Bash fix for "undefined reference to 'wctomb'"
      cd $CYANOGEN_BASE_PATH/external/bash
-     git remote remove DJL10-2_BASH; git remote add DJL10-2_BASH https://github.com/DJL10-2/android_external_bash.git && git fetch DJL10-2_BASH && \
-     git cherry-pick 1ff746e4ce40ed7b58598b63f05b036f5b2b3120 && \
+     git remote remove DJL10-2_BASH; git remote add DJL10-2_BASH https://github.com/Quallenauge/android_external_bash.git && git fetch DJL10-2_BASH && \
+     git cherry-pick f6dd843d502e7227ed80d53ba0625bb9e75bdaff && \
      git cherry-pick d8e8146df5639f0ddc7c24d4a33923718b1966f7
 
-     
+
+     #git remote remove DJL10-2_BASH; git remote add DJL10-2_BASH https://github.com/DJL10-2/android_external_bash.git && git fetch DJL10-2_BASH && \
+     #git cherry-pick 1ff746e4ce40ed7b58598b63f05b036f5b2b3120 && \
+     #git cherry-pick d8e8146df5639f0ddc7c24d4a33923718b1966f7
 
      # Art fix
      cd $CYANOGEN_BASE_PATH/art
@@ -250,6 +253,7 @@ case "$1" in
 "sync")
   echo "Perform an inject to ensure that changes are not overwritten..."
   if [ $# -eq 1 ];then
+    echo "Injecting data"
     inject
   fi
 
