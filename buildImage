@@ -5,7 +5,7 @@ set -e
 
 export BUILD_PWD=`pwd`
 
-export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-11.0
+export CYANOGEN_BASE_PATH=$BUILD_PWD/cm-12.0
 export CYANOGEN_PRODUCT_PATH=$CYANOGEN_BASE_PATH/out/target/product/archos_g9
 
 export DESTINATION_PATH=$BUILD_PWD/archos_image
@@ -74,6 +74,9 @@ echo "Correcting permission for initd and compcache binaries"
 #sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/compcache
 sudo chmod 0755 $DESTINATION_PATH/mount/system/bin/sysinit
 
+echo "Correcting permissions for system/framework files"
+sudo chmod 0644 $DESTINATION_PATH/mount/system/framework/*
+
 echo "Unmounting base image..."
 sudo umount $DESTINATION_PATH/mount
 
@@ -108,6 +111,7 @@ export ARM_EABI_TOOLCHAIN_DIR=linaro-4.8
 
     echo "Now building the project..."
     #. build/envsetup.sh && lunch cm_archos_g9-userdebug && mka update-api && mka ${@:2}
+    # . build/envsetup.sh && lunch cm_archos_g9-userdebug && mka showcommands ${@:2}
     . build/envsetup.sh && lunch cm_archos_g9-userdebug && mka ${@:2}
     cd $BUILD_PWD
 }
@@ -137,91 +141,37 @@ function applyCherryPicks
     set +e
     echo "Performing cherry-picks..."
 
-     # Update ccache to aosp version 3.1 which is faaast
-#     cd $CYANOGEN_BASE_PATH/prebuilts/misc
-#     git fetch https://android.googlesource.com/platform/prebuilts/misc refs/changes/22/66622/1 && git cherry-pick FETCH_HEAD
-
-#    # wl127x/wl128x: add firmware from linux-firmware.git
-#    # http://review.cyanogenmod.org/#/c/57983/
-     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/83/57983/2 && git cherry-pick FETCH_HEAD
-
-#    # Add backports-3.12-1 drivers
-     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/82/57982/3 && git cherry-pick FETCH_HEAD
-
-#    # backports: Add wl12xx defconfig
-     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/84/57984/2 && git cherry-pick FETCH_HEAD
-
-     # WLAN - wl12xx: Update to R5.SP7.01 from R5.SP5.01 package
-     # http://review.cyanogenmod.org/#/c/58549/
-#     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-#     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/49/58549/1 && git cherry-pick FETCH_HEAD
-
-     # SUPL early data connection fix
-     #http://review.cyanogenmod.org/#/c/57621/
-     cd $CYANOGEN_BASE_PATH/frameworks/base
-     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/21/57621/4 && git cherry-pick FETCH_HEAD
-     
-     cd $CYANOGEN_BASE_PATH/hardware/ril    
-    
-     # Set USE_NP based on HAVE_PTHREAD_COND_TIMEDWAIT_RELATIVE
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ril refs/changes/50/59050/1 && git cherry-pick FETCH_HEAD
-
-     cd $CYANOGEN_BASE_PATH/bionic
-     # libm: use neon optimized sin/cos/pow/sqrt/sqrtf
-     # git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/27/59527/1 && git cherry-pick FETCH_HEAD
-
-     cd $CYANOGEN_BASE_PATH/frameworks/base
-     # Restore pre-KitKat permissions to external sd for all apps
-     # http://review.cyanogenmod.org/#/c/62028/
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/28/62028/2 && git cherry-pick FETCH_HEAD
-
-     cd $CYANOGEN_BASE_PATH/frameworks/av/media/libstagefright/mpeg2ts/
-     # Seems to crash ZDF mediathek livestream
-     # git revert -n 5f648ff6
-
-     cd $CYANOGEN_BASE_PATH/system/vold
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_vold refs/changes/30/62530/3 && git cherry-pick FETCH_HEAD
-
+     # build: allow usage of oracle jdk on linux
+     cd $CYANOGEN_BASE_PATH/build
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/94/79494/1 && git checkout FETCH_HEAD
 
      # Apply: Fix "FIONREAD not done before read" error 
-     cd $CYANOGEN_BASE_PATH/external/bluetooth/bluedroid
-     git remote remove Quallenauge_bluedroid; git remote add Quallenauge_bluedroid https://github.com/Quallenauge/android_external_bluetooth_bluedroid.git && git fetch Quallenauge_bluedroid && \
-     git cherry-pick 1fd6d85d2bbcbbfbc6f50b92f6a5c06d32243c8a
+     #cd $CYANOGEN_BASE_PATH/external/bluetooth/bluedroid
+     #git remote remove Quallenauge_bluedroid; git remote add Quallenauge_bluedroid https://github.com/Quallenauge/android_external_bluetooth_bluedroid.git && git fetch Quallenauge_bluedroid && \
+     #git cherry-pick 1fd6d85d2bbcbbfbc6f50b92f6a5c06d32243c8a
      
 
-     cd $CYANOGEN_BASE_PATH/frameworks/base
-     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/14/66314/1 && git cherry-pick FETCH_HEAD
-
      set -e
-     # GCC - Optimizations
-     cd $CYANOGEN_BASE_PATH/build
-     # 
-     git remote remove JustArchi_Build; git remote add JustArchi_Build https://github.com/JustArchi/android_build.git && git fetch JustArchi_Build && \
-     git cherry-pick --strategy=recursive -Xours 0cf89401cc8092dda959b5746ec4899fda756cec && \
-     git cherry-pick bb1d7f11ef866d829c7966a036a4b3a7d7519595
-  
-     cd $CYANOGEN_BASE_PATH/frameworks/av 
-     git remote remove temasek; git remote add temasek https://github.com/temasek/android_frameworks_av.git && git fetch temasek && git cherry-pick 31943d4724f0fb79235eae131f8d02ff6e97ddce
+     # Add ti specific hwcomposer 1.1
+     cd $CYANOGEN_BASE_PATH/frameworks/native
+     git remote remove Quallenauge_frameworks_native; git remote add Quallenauge_frameworks_native https://github.com/Quallenauge/android_frameworks_native.git && git fetch Quallenauge_frameworks_native && \
+     git cherry-pick c6bff791550a938dffa2815e6ad7ca8aa99d2834
 
-     # Bash fix for "undefined reference to 'wctomb'"
-     cd $CYANOGEN_BASE_PATH/external/bash
-     git remote remove DJL10-2_BASH; git remote add DJL10-2_BASH https://github.com/Quallenauge/android_external_bash.git && git fetch DJL10-2_BASH && \
-     git cherry-pick f6dd843d502e7227ed80d53ba0625bb9e75bdaff && \
-     git cherry-pick d8e8146df5639f0ddc7c24d4a33923718b1966f7
+     # Support forcing all screenshots into a CPU consumer
+     cd $CYANOGEN_BASE_PATH/frameworks/native
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/41/79441/1 && git cherry-pick FETCH_HEAD
 
+     # Re-Enable non-PIE executables support
+     cd $CYANOGEN_BASE_PATH/bionic
+     git revert --no-edit 76e289c026f11126fc88841b3019fd5bb419bb67
 
-     #git remote remove DJL10-2_BASH; git remote add DJL10-2_BASH https://github.com/DJL10-2/android_external_bash.git && git fetch DJL10-2_BASH && \
-     #git cherry-pick 1ff746e4ce40ed7b58598b63f05b036f5b2b3120 && \
-     #git cherry-pick d8e8146df5639f0ddc7c24d4a33923718b1966f7
-
-     # Art fix
-     cd $CYANOGEN_BASE_PATH/art
-     git remote remove JustArchi_ART; git remote add JustArchi_ART https://github.com/JustArchi/android_art.git && git fetch JustArchi_ART && \
-     git cherry-pick 8354d2dc9d260ca67dbdf32e123bd4da62b8a68d
-
+     # Re-Enable domx calls
+     #cd $CYANOGEN_BASE_PATH/frameworks/native
+     #git remote remove MWisBest_frameworks_av; git remote add MWisBest_frameworks_native https://github.com/MWisBest/android_frameworks_av.git && git fetch MWisBest_frameworks_av && \
+     #git cherry-pick 67be76171d588aebaa8227614a5669c29af937d5 &&
+     #git cherry-pick da0be12c8dfb71c751982e14f0dd38093f7e92ef &&
+     #git cherry-pick 788b119f78102d3da785b3c234713d60443b642d
+          
 }
 
 case "$1" in
