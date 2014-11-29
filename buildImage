@@ -111,7 +111,7 @@ export ARM_EABI_TOOLCHAIN_DIR=linaro-4.8
 
     echo "Now building the project..."
     #. build/envsetup.sh && lunch cm_archos_g9-userdebug && mka update-api && mka ${@:2}
-    # . build/envsetup.sh && lunch cm_archos_g9-userdebug && mka showcommands ${@:2}
+    #. build/envsetup.sh && lunch cm_archos_g9-userdebug && mka showcommands ${@:2}
     . build/envsetup.sh && lunch cm_archos_g9-userdebug && mka ${@:2}
     cd $BUILD_PWD
 }
@@ -165,12 +165,24 @@ function applyCherryPicks
      cd $CYANOGEN_BASE_PATH/bionic
      git revert --no-edit 76e289c026f11126fc88841b3019fd5bb419bb67
 
+     # Disable pmf=1
+     cd $CYANOGEN_BASE_PATH/external/wpa_supplicant_8    
+     git revert --no-edit faa2d7a546126325077cabf13811078749faa6cd
+
      # Re-Enable domx calls
      #cd $CYANOGEN_BASE_PATH/frameworks/native
      #git remote remove MWisBest_frameworks_av; git remote add MWisBest_frameworks_native https://github.com/MWisBest/android_frameworks_av.git && git fetch MWisBest_frameworks_av && \
      #git cherry-pick 67be76171d588aebaa8227614a5669c29af937d5 &&
      #git cherry-pick da0be12c8dfb71c751982e14f0dd38093f7e92ef &&
      #git cherry-pick 788b119f78102d3da785b3c234713d60443b642d
+
+     # Android: driver_nl80211: implement NoA/p2p_ps/set_wps_ie stubs
+     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/20/78120/1 && git cherry-pick FETCH_HEAD
+
+     # capabilities ERANG error fix
+     cd $CYANOGEN_BASE_PATH/external/wpa_supplicant_8
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_wpa_supplicant_8 refs/changes/53/78853/1 && git cherry-pick FETCH_HEAD
           
 }
 
