@@ -45,6 +45,12 @@
         <project path="packages/apps/ArchosControlPanel" name="Quallenauge/archos_control_panel" revision="master"  remote="Quallenauge" />
 <!--        <project path="packages/apps/Trebuchet" name="CyanogenMod/android_packages_apps_Trebuchet" revision="cm-12.0"  remote="Quallenauge" /> -->
 
+
+	<!-- TrevDs cooool repos (forked) :) -->
+        <project path="external/usb-modeswitch" name="Quallenauge/usb-modeswitch" revision="master"  remote="Quallenauge" />
+        <project path="external/hotplugd" name="Quallenauge/android_external_hotplugd" revision="master"  remote="Quallenauge" />
+	
+
 	<!-- Testing -->
 	<!-- <project path="hardware/ti/wlan" name="KFire-Android/android_hardware_ti_wlan" revision="cm-12.0" remote="Quallenauge" />  -->
 
