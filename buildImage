@@ -30,6 +30,9 @@ function inject
 
 function buildImage
 {
+echo "Checking ext4 image..."
+fsck.ext4 -p $DESTINATION_PATH/archos.ext4.update
+
 echo "Mounting base image..."
 sudo mount $DESTINATION_PATH/archos.ext4.update $DESTINATION_PATH/mount/
 
@@ -142,8 +145,8 @@ function applyCherryPicks
     echo "Performing cherry-picks..."
 
      # build: allow usage of oracle jdk on linux
-     cd $CYANOGEN_BASE_PATH/build
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/94/79494/1 && git checkout FETCH_HEAD
+     #cd $CYANOGEN_BASE_PATH/build
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/94/79494/1 && git checkout FETCH_HEAD
 
      # Apply: Fix "FIONREAD not done before read" error 
      #cd $CYANOGEN_BASE_PATH/external/bluetooth/bluedroid
@@ -158,16 +161,21 @@ function applyCherryPicks
      git cherry-pick c6bff791550a938dffa2815e6ad7ca8aa99d2834
 
      # Support forcing all screenshots into a CPU consumer
-     cd $CYANOGEN_BASE_PATH/frameworks/native
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/41/79441/1 && git cherry-pick FETCH_HEAD
+     #cd $CYANOGEN_BASE_PATH/frameworks/native
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/41/79441/1 && git cherry-pick FETCH_HEAD
 
      # Re-Enable non-PIE executables support
      cd $CYANOGEN_BASE_PATH/bionic
-     git revert --no-edit 76e289c026f11126fc88841b3019fd5bb419bb67
+     #git revert --no-edit 76e289c026f11126fc88841b3019fd5bb419bb67
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/36/79136/2 && git cherry-pick FETCH_HEAD
 
      # Disable pmf=1
-     cd $CYANOGEN_BASE_PATH/external/wpa_supplicant_8    
-     git revert --no-edit faa2d7a546126325077cabf13811078749faa6cd
+     #cd $CYANOGEN_BASE_PATH/external/wpa_supplicant_8    
+     #git revert --no-edit faa2d7a546126325077cabf13811078749faa6cd
+
+     # fix outgoing calls on LP
+     cd $CYANOGEN_BASE_PATH/hardware/ril
+     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ril refs/changes/64/82164/1 && git cherry-pick FETCH_HEAD
 
      # Re-Enable domx calls
      #cd $CYANOGEN_BASE_PATH/frameworks/native
@@ -177,13 +185,17 @@ function applyCherryPicks
      #git cherry-pick 788b119f78102d3da785b3c234713d60443b642d
 
      # Android: driver_nl80211: implement NoA/p2p_ps/set_wps_ie stubs
-     cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/20/78120/1 && git cherry-pick FETCH_HEAD
+     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/20/78120/1 && git cherry-pick FETCH_HEAD
 
      # capabilities ERANG error fix
      cd $CYANOGEN_BASE_PATH/external/wpa_supplicant_8
      git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_wpa_supplicant_8 refs/changes/53/78853/1 && git cherry-pick FETCH_HEAD
-          
+
+     # nl80211: update includes to L bionic and add unhandled attributes to nl80211
+     #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/60/80360/1 && git cherry-pick FETCH_HEAD
+
 }
 
 case "$1" in
