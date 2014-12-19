@@ -7,7 +7,7 @@ To build do the following steps:
 
 Use base tar image from this post:
 http://forum.xda-developers.com/showpost.php?p=37634328&postcount=104  
-https://mega.co.nz/#!jYUCzaxR!3pArIHnYte9pyUJ6nTMChckE-CKrupIMFWm_4yOyY9U
+https://mega.co.nz/#!OYNCTKAJ!y9pQ9suEHhXPUXjwUVgMFSVhmgXzxdu5tPCl1uxumIE
 and place it into this folder.
 
 ```bash
