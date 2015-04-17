@@ -123,7 +123,7 @@ function cleanGitRepos
 {
     callRepo repo forall -c git reset --hard
     callRepo repo forall -c git clean -fd
-    $CYANOGEN_BASE_PATH/vendor/cm/get-prebuilts
+    #$CYANOGEN_BASE_PATH/vendor/cm/get-prebuilts
 }
 
 function prepareLinaroToolChain
@@ -165,9 +165,9 @@ function applyCherryPicks
      #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/41/79441/1 && git cherry-pick FETCH_HEAD
 
      # Re-Enable non-PIE executables support
-     cd $CYANOGEN_BASE_PATH/bionic
+     #cd $CYANOGEN_BASE_PATH/bionic
      #git revert --no-edit 76e289c026f11126fc88841b3019fd5bb419bb67
-     git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/36/79136/2 && git cherry-pick FETCH_HEAD
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/36/79136/2 && git cherry-pick FETCH_HEAD
 
      # Disable pmf=1
      #cd $CYANOGEN_BASE_PATH/external/wpa_supplicant_8    
@@ -195,6 +195,13 @@ function applyCherryPicks
      # nl80211: update includes to L bionic and add unhandled attributes to nl80211
      #cd $CYANOGEN_BASE_PATH/hardware/ti/wlan
      #git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_wlan refs/changes/60/80360/1 && git cherry-pick FETCH_HEAD
+
+     # base: fix public api breakage
+     #cd $CYANOGEN_BASE_PATH/frameworks/base
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/79/92379/1 && git cherry-pick FETCH_HEAD
+
+     #cd $CYANOGEN_BASE_PATH/packages/apps/Mms-caf
+     #git fetch http://review.cyanogenmod.org/CyanogenMod/android_packages_apps_Mms-caf refs/changes/55/80955/2 && git cherry-pick FETCH_HEAD
 
 }
 
