@@ -36,7 +36,7 @@
         <!-- Quallenauge kernel repository -->
         <project path="kernel/archos/archos_g9" name="Quallenauge/kernel-archos" revision="cm-12.0"  remote="Quallenauge" />
         <project path="hardware/ti/wlan_os" name="Quallenauge/android_hardware_ti_wlan_os" revision="3.13-1"  remote="Quallenauge" />
-        <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-12.0"  remote="Quallenauge" />
+        <project path="device/archos/archos_g9" name="Quallenauge/cm10-archos-g9" revision="cm-12.1"  remote="Quallenauge" />
 	<project path="device/archos/omap4-common" name="Quallenauge/android_device_archos_omap4_common" revision="cm-12.0"  remote="Quallenauge" />
         <project path="external/kernel-headers" name="Quallenauge/android_external_kernel-headers" revision="cm-12.0"  remote="Quallenauge" /> 
 <!--        <project path="external/wpa_supplicant_8" name="Quallenauge/wpa_supplicant_8" revision="kitkat_ca"  remote="Quallenauge" /> -->
@@ -75,6 +75,7 @@
                 <annotation name="vendor" value="ti"/>
         </project>
 	-->
+	<!--
         <project path="hardware/ti/dvp" name="platform/hardware/ti/dvp" revision="master" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
@@ -84,6 +85,7 @@
         <project path="device/ti/common-open" name="device/ti/common-open" revision="jb-release" remote="omap-mirror">
                 <annotation name="vendor" value="ti"/>
         </project>
+        -->
 
 	<!-- LINARO TOOLCHAIN -->
 	<!--
